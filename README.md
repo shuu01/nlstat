@@ -6,6 +6,8 @@ Gather statistics from python projects
 
     import dclnt
 
+    dclnt.FILES_LIMIT = 100
+
     top_size = 10
     path = '/path'
 

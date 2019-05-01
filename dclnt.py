@@ -8,6 +8,8 @@ from nltk import pos_tag
 if not nltk.data.find('taggers/averaged_perceptron_tagger'):
     nltk.download('averaged_perceptron_tagger')
 
+# count of files that will be parsed in path
+FILES_LIMIT = 100
 
 def is_verb(word):
 
@@ -23,7 +25,7 @@ def is_magic(name):
         return True
 
 
-def get_filenames(path, limit=100):
+def get_filenames(path):
 
     filenames = []
 
@@ -31,10 +33,10 @@ def get_filenames(path, limit=100):
         for file in files:
             if file.endswith('.py'):
                 filenames.append(os.path.join(dirname, file))
-                if len(filenames) == limit:
-                    break
+            if len(filenames) == FILES_LIMIT:
+                break
 
-    print('total %s files' % len(filenames))
+    print('total {} files'.format(len(filenames)))
 
     return filenames
 
