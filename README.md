@@ -1,8 +1,8 @@
-#python natural language statistics
+# python natural language statistics
 
 Gather statistics from python projects
 
-##usage
+## usage
 
     import dclnt
 
