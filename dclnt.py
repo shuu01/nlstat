@@ -11,10 +11,6 @@ if not nltk.data.find('taggers/averaged_perceptron_tagger'):
 # count of files that will be parsed in path
 FILES_LIMIT = 100
 
-def set_files_limit(limit):
-    global FILES_LIMIT
-    FILES_LIMIT = limit
-
 def is_verb(word):
 
     if not word:
