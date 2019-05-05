@@ -11,6 +11,10 @@ if not nltk.data.find('taggers/averaged_perceptron_tagger'):
 # count of files that will be parsed in path
 FILES_LIMIT = 100
 
+def set_files_limit(limit):
+    global FILES_LIMIT
+    FILES_LIMIT = limit
+
 def is_verb(word):
 
     if not word:
@@ -26,6 +30,11 @@ def is_magic(name):
 
 
 def get_filenames(path):
+    '''
+        path: filepath
+        search for files from path with ".py" extension
+        return: list of filenames
+    '''
 
     filenames = []
 
@@ -34,14 +43,20 @@ def get_filenames(path):
             if file.endswith('.py'):
                 filenames.append(os.path.join(dirname, file))
             if len(filenames) == FILES_LIMIT:
-                break
+                print('total {} files'.format(len(filenames)))
+                return filenames
 
     print('total {} files'.format(len(filenames)))
-
     return filenames
 
 
 def get_trees(path, with_filenames=False, with_file_content=False):
+    '''
+        path: filepath
+        get all files from path with ".py" extension and build
+        abstract syntax tree for each file based on code content
+        return: list of trees
+    '''
 
     filenames = get_filenames(path)
     trees = []
@@ -79,6 +94,11 @@ def get_verbs_from_function_name(function_name):
 
 
 def get_all_words_in_path(path):
+    '''
+        path: filepath
+        build abstract syntax tree from path and get all words from tree
+        return: list of words
+    '''
 
     trees = get_trees(path)
 
@@ -92,6 +112,12 @@ def get_all_words_in_path(path):
 
 
 def get_top_verbs_in_path(path, top_size=10):
+    '''
+        path: filepath
+        get all function names from python files in path,
+        split it in verbs and return top of most common verbs
+        return: list of tuples
+    '''
 
     names = get_all_function_names_in_path(path)
     print('functions extracted')
@@ -105,6 +131,12 @@ def get_top_verbs_in_path(path, top_size=10):
 
 
 def get_top_functions_names_in_path(path, top_size=10):
+    '''
+        path: filepath
+        get all function names from python files in path
+        and return top of most common function names
+        return: list of tuples
+    '''
 
     names = get_all_function_names_in_path(path)
 
@@ -112,6 +144,10 @@ def get_top_functions_names_in_path(path, top_size=10):
 
 
 def get_all_function_names_in_path(path):
+    '''
+        path: filepath
+        return: all non dunder function names from path
+    '''
 
     trees = get_trees(path)
 
