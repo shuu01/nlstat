@@ -77,7 +77,7 @@ def get_trees(
 
         if with_filenames:
             if with_file_content:
-                yield (filename, main_file_content)
+                yield (filename, main_file_content, tree)
             else:
                 yield (filename, tree)
         else:
