@@ -39,7 +39,7 @@ class GitRepository(Repository):
             self.is_cloned = True
         except:
             self.remove_local_repository()
-            self.local_path = ''
+            self.dest = ''
             self.is_cloned = False
 
         return self.local_path

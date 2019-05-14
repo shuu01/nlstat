@@ -10,6 +10,10 @@ repo_types = [
     'git',
 ]
 
+langs = [
+    'python',
+]
+
 parser = argparse.ArgumentParser(
     description='Natural language statistics.',
 )
@@ -70,4 +74,13 @@ parser.add_argument(
     choices=output_formats,
     default='json',
     help=f'output data format, default: json, supported: {output_formats}',
+)
+
+parser.add_argument(
+    '-l',
+    '--lang',
+    metavar='lang',
+    choices=langs,
+    default='python',
+    help=f'programming language, default: python, supported: {langs}',
 )
