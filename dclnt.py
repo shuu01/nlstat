@@ -34,7 +34,7 @@ def get_filenames(path: str) -> Generator[str, None, None]:
     '''
         path: filepath
         search for files from path with ".py" extension
-        return: list of filenames
+        return: generator of filenames
     '''
 
     count: int = 0
@@ -49,7 +49,7 @@ def get_filenames(path: str) -> Generator[str, None, None]:
                 return None
 
     print('total {} files'.format(count))
-    return
+    return None
 
 
 def get_trees(
@@ -61,7 +61,7 @@ def get_trees(
         path: filepath
         get all files from path with ".py" extension and build
         abstract syntax tree for each file based on code content
-        return: list of trees
+        return: generator of trees
     '''
 
     for filename in get_filenames(path):
@@ -98,7 +98,7 @@ def get_all_words_in_path(path: str) -> Generator[str, None, None]:
     '''
         path: filepath
         build abstract syntax tree from path and get all words from tree
-        return: list of words
+        return: generator of names
     '''
 
     for tree in get_trees(path):
@@ -146,7 +146,7 @@ def get_top_functions_names_in_path(
 def get_all_function_names_in_path(path: str) -> Generator[str, None, None]:
     '''
         path: filepath
-        return: all non dunder function names from path
+        return: generator of non dunder function names from path
     '''
 
     for tree in get_trees(path):
