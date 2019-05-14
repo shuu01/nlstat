@@ -3,6 +3,7 @@
 import ast
 import os
 import collections
+from arg_parser import parser
 from typing import List, Tuple, Any, Generator
 
 import nltk
@@ -161,7 +162,13 @@ def get_top(words: List[Any], top_size: int = 10) -> List[Tuple[Any, int]]:
     return collections.Counter(words).most_common(top_size)
 
 
+def main():
+    args = parser.parse_args()
+    print(args)
+
 if __name__ == "__main__":
+
+    main()
 
     words: List[Tuple[Any, int]] = []
 
