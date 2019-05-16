@@ -4,11 +4,15 @@ import shutil
 
 class Repository(object):
 
-    def __init__(self, url, dest='/tmp', branch='master'):
+    def __init__(self, url, dest=None, branch=None):
 
         self.url = url
-        dest = dest.rstrip('/') + '/' + url.split('/')[-1]
-        self.dest = dest
+        self.repo = url.split('/')[-1]
+        if not dest:
+            dest = '/tmp'
+        if not branch:
+            branch = 'master'
+        self.dest = dest.rstrip('/') + '/' + self.repo
         self.branch = branch
 
     def remove_local_repository(self):
@@ -23,7 +27,7 @@ class Repository(object):
 
 class GitRepository(Repository):
 
-    def __init__(self, url, dest='/tmp', branch='master'):
+    def __init__(self, url, dest=None, branch=None):
         super().__init__(url, dest, branch)
 
     def clone_url(self):
@@ -33,21 +37,18 @@ class GitRepository(Repository):
         try:
             Repo.clone_from(
                 self.url,
-                self.local_path,
+                self.dest,
                 branch=self.branch,
             )
-            self.is_cloned = True
         except:
             self.remove_local_repository()
-            self.dest = ''
-            self.is_cloned = False
 
         return self.local_path
 
 
 class HgRepository(Repository):
 
-    def __init__(self, url, to_dir='/tmp/', branch='master'):
+    def __init__(self, url, dest=None, branch=None):
         super().__init__(url, to_dir, branch)
 
     def clone_url(self):
@@ -55,7 +56,7 @@ class HgRepository(Repository):
 
 class SvnRepository(Repository):
 
-    def __init__(self, url, to_dir='/tmp/', branch='master'):
+    def __init__(self, url, to_dir=None, branch=None):
         super().__init__(url, to_dir, branch)
 
     def clone_url(self):

@@ -73,16 +73,29 @@ class PythonParser(BaseParser):
         for tree in self.get_trees():
             for node in ast.walk(tree):
                 if isinstance(node, node_type):
-                    yield node.id
-            
-    def get_names(self):
-        return self.get_nodes(ast.Name)
-    
-    def get_variables(self):
-        return self.get_node(ast.Assign)
+                    yield node
 
-    def get_functions(self):
-        return self.get_node(ast.FunctionDef)
+    def get_variables(self):
+        for node in get_nodes(ast.Assign):
+            for x in node.targets:
+                yield x.id
+
+    def get_names(self):
+        for node in self.get_nodes(ast.Name):
+            yield node.id
+
+    def get_function_names(self):
+        for node in self.get_nodes(ast.FunctionDef):
+            name = node.name.lower()
+            if not is_magic(name)
+                yield name
 
     def get_classes(self):
-        return self.get_node(ast.ClassDef)
+        for node in self.get_nodes(ast.ClassDef):
+            yield node.name
+
+    def get_words(path: str) -> Generator[str, None, None]:
+        for name in get_names:
+            if not is_magic(name):
+                for x in name.split('_'):
+                    yield x
