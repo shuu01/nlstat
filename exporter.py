@@ -3,27 +3,26 @@ import json
 import logging
 
 
-def get_handler(stat=None, filename='stat', out_type='stdout'):
+def exporter(stat=None, filename='stat', exporter_type='stdout'):
 
     if not stat:
         logging.error('')
         return False
 
-    handlers = {
-        'stdout': out_to_stdout,
-        'json': out_to_json,
-        'csv': out_to_csv,
-        'ods': out_to_ods,
-        'pdf': out_to_pdf,
+    exporters = {
+        'stdout': export_to_stdout,
+        'json': export_to_json,
+        'csv': export_to_csv,
+        'pdf': export_to_pdf,
     }
 
-    handler = handlers.get(out_type)
+    _exporter = exporters.get(out_type)
 
-    if handler:
-        return handler(stat)
+    if _exporter:
+        return _exporter(stat)
     else:
         logging.error(
-            f"handler {out_type} doesn't supported"
+            f"handler {exporter_type} doesn't supported"
         )
         return False
 

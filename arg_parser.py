@@ -8,6 +8,7 @@ output_formats = [
 
 langs = [
     'python',
+    'java',
 ]
 
 parser = argparse.ArgumentParser(
@@ -31,37 +32,43 @@ parser.add_argument(
     '-p',
     '--path',
     action='extend',
-    metavar='path',
-    nargs='?',
+    nargs='+',
     help="one or more paths to project",
-    #default=['.'],
+    metavar='filepath',
 )
 
 parser.add_argument(
     '-o',
     '--output',
-    metavar='filename',
     type=argparse.FileType('w'),
-    default=sys.stdout,
-    help="redirect output to a file, default: stdout",
+    #default=sys.stdout,
+    help="redirect output to a file or stdout, default: stdout",
+    metavar='output',
 )
 
 parser.add_argument(
     '-f',
     '--format',
-    metavar='format',
     choices=output_formats,
     default='json',
-    help=f'output data format, default: json, supported: {output_formats}',
+    help=f'output data format, default: json',
 )
 
 parser.add_argument(
     '-l',
     '--lang',
-    metavar='lang',
     choices=langs,
     default='python',
-    help=f'programming language, default: python, supported: {langs}',
+    help=f'programming language, default: python',
+)
+
+parser.add_argument(
+    '-g',
+    '--git-url',
+    action='extend',
+    nargs='+',
+    help="one or more urls to git project repository",
+    metavar='url',
 )
 
 parser.add_argument(
@@ -69,15 +76,7 @@ parser.add_argument(
     '--branch',
     default='master',
     help="branch name",
-)
-
-parser.add_argument(
-    '-g',
-    '--git-url',
-    action='extend',
-    metavar='git-url',
-    nargs='?',
-    help="one or more urls to git project repository",
+    metavar='branch',
 )
 
 # parser.add_argument(

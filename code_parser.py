@@ -87,7 +87,7 @@ class PythonParser(BaseParser):
     def get_function_names(self):
         for node in self.get_nodes(ast.FunctionDef):
             name = node.name.lower()
-            if not is_magic(name)
+            if not is_magic(name):
                 yield name
 
     def get_classes(self):
