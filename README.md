@@ -1,17 +1,36 @@
 # python natural language statistics
 
-Gather statistics from python projects
+Gather natural language statistics from python projects
 
 ## usage
 
-    import dclnt
+    usage: nlstat.py [-h] [-p filepath [filepath ...]]
+                 [-c limit files parsing to count] [-o output]
+                 [-f {stdout,json,csv,pdf}] [-l {python}] [-g url [url ...]]
+                 [-r {top-verbs,top-nouns,top-names-functions,top-names-variables,top-verbs-functions,top-verbs-variables}]
+                 [-s top_size]
 
-    dclnt.FILES_LIMIT = 100
+    Natural language statistics.
 
-    top_size = 10
-    path = '/path'
+    optional arguments:
+      -h, --help            show this help message and exit
+      -p filepath [filepath ...], --path filepath [filepath ...]
+                            one or more paths to project
+      -c limit files parsing to count, --count limit files parsing to count
+                            one or more paths to project
+      -o output, --output output
+                            redirect output to a file or stdout, default: stdout
+      -f {stdout,json,csv,pdf}, --format {stdout,json,csv,pdf}
+                            output data format, default: json
+      -l {python}, --lang {python}
+                            programming language, default: python
+      -g url [url ...], --git-url url [url ...]
+                            one or more urls to git project repository
+      -r {top-verbs,top-nouns,top-names-functions,top-names-variables,top-verbs-functions,top-verbs-variables}, --report {top-verbs,top-nouns,top-names-functions,top-names-variables,top-verbs-functions,top-verbs-variables}
+                            report type
+      -s top_size, --top-size top_size
+                            size of top reports
 
-    verbs_stat = dclnt.get_top_verbs_in_path(path, top_size)
-    funcs_stat = dclnt.get_top_function_names_in_path(path, top_size)
-    all_verbs = dclnt.get_all_words_in_path(path)
+## usage example
 
+    ./nlstat.py -p . -o stat -f json -r top-names-functions -l python -c 10

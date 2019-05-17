@@ -23,12 +23,13 @@ def main():
     top_size = args.top_size
     files_limit = args.count
 
+    output = []
     paths = args.path
     if paths:
         for path in paths:
             if os.path.exists(path):
                 parser = Parser(path, files_limit)
-                output = report(parser, top_size)
+                output.extend(report(parser, top_size))
 
     git_urls = args.git_url
     if git_urls:
@@ -37,7 +38,11 @@ def main():
             path = git_repo.clone_url()
             if path:
                 parser = Parser(path, files_limit)
-                output = report(parser, top_size)
+                output.extend(report(parser, top_size))
+
+    if not paths and not git_urls:
+        print('you should specify either path or url')
+        return
 
     output_format = args.format
     output_file = args.output
