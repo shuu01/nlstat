@@ -42,8 +42,9 @@ class GitRepository(Repository):
             )
         except:
             self.remove_local_repository()
+            return None
 
-        return self.local_path
+        return self.dest
 
 
 class HgRepository(Repository):
@@ -53,6 +54,7 @@ class HgRepository(Repository):
 
     def clone_url(self):
         pass
+
 
 class SvnRepository(Repository):
 

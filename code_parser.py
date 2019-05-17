@@ -1,13 +1,13 @@
 import os
 import ast
 
-from typing import Generator, Any
+from typing import Generator, Any, List, Tuple
 
 class BaseParser(object):
 
-    extensions = ()
+    extensions: Tuple[str] = ('',)
 
-    def __init__(self, path: str='.', files_limit: int=100):
+    def __init__(self, path: str, files_limit: int):
 
         self.path = path
         self.files_limit = files_limit
@@ -34,7 +34,7 @@ class PythonParser(BaseParser):
         '.py',
     )
 
-    def __init__(self, path: str='.', files_limit: int=100):
+    def __init__(self, path: str, files_limit: int):
 
         super().__init__(path, files_limit)
 
@@ -69,13 +69,13 @@ class PythonParser(BaseParser):
             else:
                 yield tree
 
-    def get_nodes(self, node_type) -> Generator[str, None, None]:
+    def get_nodes(self, node_type):
         for tree in self.get_trees():
             for node in ast.walk(tree):
                 if isinstance(node, node_type):
                     yield node
 
-    def get_variables(self):
+    def get_variable_names(self):
         for node in get_nodes(ast.Assign):
             for x in node.targets:
                 yield x.id
@@ -87,15 +87,25 @@ class PythonParser(BaseParser):
     def get_function_names(self):
         for node in self.get_nodes(ast.FunctionDef):
             name = node.name.lower()
-            if not is_magic(name):
+            if not self.is_magic(name):
                 yield name
 
-    def get_classes(self):
+    def get_class_names(self):
         for node in self.get_nodes(ast.ClassDef):
             yield node.name
 
-    def get_words(path: str) -> Generator[str, None, None]:
-        for name in get_names:
-            if not is_magic(name):
+    def get_words(self):
+        for name in self.get_names():
+            if not self.is_magic(name):
                 for x in name.split('_'):
                     yield x
+
+
+def get_parser(lang):
+
+    return parsers.get(lang)
+
+
+parsers = {
+    'python': PythonParser,
+}
