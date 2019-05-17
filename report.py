@@ -2,11 +2,18 @@ import collections
 import nltk
 from nltk import pos_tag
 
+import re
+
 from typing import Generator, List, Tuple, Any
 
 if not nltk.data.find('taggers/averaged_perceptron_tagger'):
     nltk.download('averaged_perceptron_tagger')
 
+
+def camel_case_split(name):
+
+    splitted = re.sub('(?!^)([A-Z][a-z]+)', r' \1', name).split()
+    return splitted
 
 def is_verb(word: str) -> bool:
 
@@ -67,7 +74,7 @@ def get_top_function_names(
     top_size: int=10,
 ) -> List[Tuple[Any, int]]:
 
-    names = [parser.get_function_names()]
+    names = [name for name in parser.get_function_names()]
 
     return get_top(names, top_size)
 
@@ -77,9 +84,37 @@ def get_top_variable_names(
     top_size: int=10,
 ) -> List[Tuple[Any, int]]:
 
-    names = [parser.get_variable_names()]
+    names = [name for name in parser.get_variable_names()]
 
     return get_top(names, top_size)
+
+
+def get_top_function_verbs(
+    parser,
+    top_size: int=10,
+) -> List[Tuple[Any, int]]:
+
+    result = []
+    for name in parser.get_function_names():
+        verbs = name.split('_')
+        for verb in verbs:
+             result.extend(camel_case_split(verb))
+
+    return get_top(result, top_size)
+
+
+def get_top_variable_verbs(
+    parser,
+    top_size: int=10,
+) -> List[Tuple[Any, int]]:
+
+    result = []
+    for name in parser.get_variable_names():
+        verbs = name.split('_')
+        for verb in verbs:
+             result.extend(camel_case_split(verb))
+
+    return get_top(result, top_size)
 
 
 def get_top(words: List[Any], top_size: int = 10) -> List[Tuple[Any, int]]:
@@ -93,6 +128,8 @@ def get_report(report):
 reports = {
     'top-verbs': get_top_verbs_from_names,
     'top-nouns': get_top_nouns_from_names,
-    'top-words-functions': get_top_function_names,
-    'top-words-variables': get_top_variable_names,
+    'top-names-functions': get_top_function_names,
+    'top-names-variables': get_top_variable_names,
+    'top-verbs-functions': get_top_function_verbs,
+    'top-verbs-variables': get_top_variable_verbs,
 }
