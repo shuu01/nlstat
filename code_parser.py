@@ -75,11 +75,6 @@ class PythonParser(BaseParser):
                 if isinstance(node, node_type):
                     yield node
 
-    # def get_variable_names(self):
-        # for node in self.get_nodes(ast.Assign):
-            # for x in node.targets:
-                # yield x.id
-
     def get_variable_names(self):
         for node in self.get_nodes(ast.Name):
             yield node.id
