@@ -10,9 +10,8 @@ def export_to_json(stat, iowrapper):
 
 def export_to_csv(stat, iowrapper):
 
-    writer = csv.writer(iowrapper)
-    for line in stat:
-        writer.writerow(line)
+    writer = csv.writer(iowrapper, delimiter=';')
+    writer.writerows(stat)
 
 
 def export_to_stdout(stat, iowrapper):
