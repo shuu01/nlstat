@@ -89,12 +89,6 @@ class PythonParser(BaseParser):
         for node in self.get_nodes(ast.ClassDef):
             yield node.name
 
-    def get_words(self):
-        for name in self.get_names():
-            if not self.is_magic(name):
-                for x in name.split('_'):
-                    yield x
-
 
 def get_parser(lang):
 

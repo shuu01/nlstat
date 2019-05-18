@@ -27,10 +27,12 @@ Gather natural language statistics from python projects
       -g url [url ...], --git-url url [url ...]
                             one or more urls to git project repository
       -r {top-verbs,top-nouns,top-names-functions,top-names-variables,top-verbs-functions,top-verbs-variables}, --report {top-verbs,top-nouns,top-names-functions,top-names-variables,top-verbs-functions,top-verbs-variables}
-                            report type
+                            report type, default: top-verbs
       -s top_size, --top-size top_size
-                            size of top reports
+                            size of top reports, default: 10
 
 ## usage example
 
     ./nlstat.py -p . -o stat -f json -r top-names-functions -l python -c 10
+
+This command get all python files in current working directory, collect statistics about top functions names, convert it to json format and put in file with name 'stat'

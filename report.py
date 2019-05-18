@@ -47,9 +47,12 @@ def get_top_verbs_from_names(
 ) -> List[Tuple[Any, int]]:
 
     verbs: List[str] = []
-    for word in parser.get_words():
-        for verb in get_verbs_from_name(word):
-            verbs.append(verb)
+    for name in parser.get_variable_names():
+        words = name.split('_')
+        for word in words:
+            for w in camel_case_split(word):
+                if is_verb(w): verbs.append(w) 
+
     print('verbs extracted')
 
     return get_top(verbs, top_size)
@@ -61,9 +64,12 @@ def get_top_nouns_from_names(
 ) -> List[Tuple[Any, int]]:
 
     nouns: List[str] = []
-    for word in parser.get_words():
-        for noun in get_nouns_from_name(word):
-            nouns.append(noun)
+    for name in parser.get_variable_names():
+        words = name.split('_')
+        for word in words:
+            for w in camel_case_split(word):
+                if is_noun(w): nouns.append(w)
+
     print('nouns extracted')
 
     return get_top(nouns, top_size)
@@ -89,30 +95,30 @@ def get_top_variable_names(
     return get_top(names, top_size)
 
 
-def get_top_function_verbs(
+def get_top_function_words(
     parser,
     top_size: int=10,
 ) -> List[Tuple[Any, int]]:
 
     result = []
     for name in parser.get_function_names():
-        verbs = name.split('_')
-        for verb in verbs:
-             result.extend(camel_case_split(verb))
+        words = name.split('_')
+        for word in words:
+             result.extend(camel_case_split(word))
 
     return get_top(result, top_size)
 
 
-def get_top_variable_verbs(
+def get_top_variable_words(
     parser,
     top_size: int=10,
 ) -> List[Tuple[Any, int]]:
 
     result = []
     for name in parser.get_variable_names():
-        verbs = name.split('_')
-        for verb in verbs:
-             result.extend(camel_case_split(verb))
+        words = name.split('_')
+        for word in words:
+             result.extend(camel_case_split(word))
 
     return get_top(result, top_size)
 
@@ -128,8 +134,8 @@ def get_report(report):
 reports = {
     'top-verbs': get_top_verbs_from_names,
     'top-nouns': get_top_nouns_from_names,
-    'top-names-functions': get_top_function_names,
-    'top-names-variables': get_top_variable_names,
-    'top-verbs-functions': get_top_function_verbs,
-    'top-verbs-variables': get_top_variable_verbs,
+    'top-function-names': get_top_function_names,
+    'top-variable-names': get_top_variable_names,
+    'top-function-words': get_top_function_words,
+    'top-variable-words': get_top_variable_words,
 }

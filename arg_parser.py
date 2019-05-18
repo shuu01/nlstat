@@ -31,42 +31,8 @@ arg_parser.add_argument(
     '--path',
     action='extend',
     nargs='+',
-    help="one or more paths to project",
     metavar='filepath',
-)
-
-arg_parser.add_argument(
-    '-c',
-    '--count',
     help="one or more paths to project",
-    type=int,
-    metavar='limit files parsing to count',
-    default=100,
-)
-
-arg_parser.add_argument(
-    '-o',
-    '--output',
-    type=argparse.FileType('w'),
-    default=sys.stdout,
-    help="redirect output to a file or stdout, default: stdout",
-    metavar='output',
-)
-
-arg_parser.add_argument(
-    '-f',
-    '--format',
-    choices=exporters,
-    default='json',
-    help=f'output data format, default: json',
-)
-
-arg_parser.add_argument(
-    '-l',
-    '--lang',
-    choices=langs,
-    default='python',
-    help=f'programming language, default: python',
 )
 
 arg_parser.add_argument(
@@ -74,8 +40,42 @@ arg_parser.add_argument(
     '--git-url',
     action='extend',
     nargs='+',
+    metavar='git_url',
     help="one or more urls to git project repository",
-    metavar='url',
+)
+
+arg_parser.add_argument(
+    '-c',
+    '--count',
+    type=int,
+    default=100,
+    metavar='count',
+    help="limit files parsing to count",
+)
+
+arg_parser.add_argument(
+    '-o',
+    '--output',
+    type=argparse.FileType('w'),
+    default=sys.stdout,
+    metavar='output',
+    help="redirect output to a file or stdout, default: stdout",
+)
+
+arg_parser.add_argument(
+    '-f',
+    '--format',
+    choices=exporters,
+    default='json',
+    help='output data format, default: json',
+)
+
+arg_parser.add_argument(
+    '-l',
+    '--lang',
+    choices=langs,
+    default='python',
+    help='programming language, default: python',
 )
 
 arg_parser.add_argument(
@@ -83,7 +83,7 @@ arg_parser.add_argument(
     '--report',
     choices=reports,
     default=reports[0],
-    help="report type",
+    help="report type, default: top-verbs",
 )
 
 arg_parser.add_argument(
@@ -92,7 +92,7 @@ arg_parser.add_argument(
     type=int,
     default=10,
     metavar='top_size',
-    help="size of top reports",
+    help="size of top reports, default: 10",
 )
 
 # arg_parser.add_argument(

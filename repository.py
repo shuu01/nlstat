@@ -1,5 +1,6 @@
 from git import Repo
 import shutil
+import os
 
 
 class Repository(object):
@@ -16,11 +17,15 @@ class Repository(object):
         self.branch = branch
 
     def remove_local_repository(self):
-
+        
+        if not os.path.exists(self.dest):
+            return False
+        
         try:
-            shutil.rmtree(self.local_path)
+            shutil.rmtree(self.dest)
         except Exception as e:
-            raise
+            print(f'remove dir: {e}')
+            return False
 
         return True
 
@@ -40,7 +45,8 @@ class GitRepository(Repository):
                 self.dest,
                 branch=self.branch,
             )
-        except:
+        except Exception as e:
+            print(e)
             self.remove_local_repository()
             return None
 
