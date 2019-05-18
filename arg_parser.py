@@ -50,7 +50,7 @@ arg_parser.add_argument(
     type=int,
     default=100,
     metavar='count',
-    help="limit files parsing to count",
+    help="limit files parsing to count, default: 100",
 )
 
 arg_parser.add_argument(
