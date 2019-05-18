@@ -34,11 +34,18 @@ def is_noun(word: str) -> bool:
 
 
 def get_verbs_from_name(name: str) -> Generator[str, None, None]:
-    return (word for word in name.split('_') if is_verb(word))
-
+    words = name.split('_')
+    for word in words:
+        for w in camel_case_split(word):
+            if is_verb(w):
+                yield w
 
 def get_nouns_from_name(name: str) -> Generator[str, None, None]:
-    return (word for word in name.split('_') if is_noun(word))
+    words = name.split('_')
+    for word in words:
+        for w in camel_case_split(word):
+            if is_noun(w):
+                yield w
 
 
 def get_top_verbs_from_names(
@@ -48,10 +55,8 @@ def get_top_verbs_from_names(
 
     verbs: List[str] = []
     for name in parser.get_variable_names():
-        words = name.split('_')
-        for word in words:
-            for w in camel_case_split(word):
-                if is_verb(w): verbs.append(w) 
+        for verb in get_verbs_from_name(name):
+            verbs.append(verb) 
 
     print('verbs extracted')
 
@@ -65,10 +70,8 @@ def get_top_nouns_from_names(
 
     nouns: List[str] = []
     for name in parser.get_variable_names():
-        words = name.split('_')
-        for word in words:
-            for w in camel_case_split(word):
-                if is_noun(w): nouns.append(w)
+        for noun in get_nouns_from_name(name):
+            nouns.append(noun) 
 
     print('nouns extracted')
 
